@@ -8,17 +8,20 @@ import { io } from "socket.io-client";
 const socket = io("http://localhost:3001");
 
 export default function Community() {
-  const user = useRef('sda');
+    const [chat, setChat] = useState([]);
+  const user = useRef('bobby');
+
+  console.log(chat)
 
   return (
     <main className="h-screen mt-[10vh] max-h-screen max-w-screen mx-auto md:container md:p-20 md:pt-4">
       {user.current ? (
         <>
-          <Chat />
-          <Inputs />
+          <Chat user={user.current} chat={chat}/>
+          <Inputs setChat={setChat} user={user.current} socket={socket}/>
         </>
       ) : (
-        <SignUp />
+        <SignUp/>
       )}
     </main>
   );

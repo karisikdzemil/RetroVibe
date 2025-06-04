@@ -1,10 +1,14 @@
-const Chat = () => {
+
+
+const Chat = ( {chat, user} ) => {
     return (
         <div className="h-full pb-12 md:p-4">
             <div className="w-full h-full max-h-screen rounded-md overflow-y-auto gradient pt-2 md:pt-6">
-                <Message content="Hello World" own={true}/>
-                <Message content="Hello World" own={false}/>
-
+                {chat.map((message, index) => {
+                    message = {...message, own: message.user === user}
+                    return <Message key={index} {...message}/>
+                })}
+                {/* <Message content="Hello World" own={true}/> */}
             </div>
 
         </div>
