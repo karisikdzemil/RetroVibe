@@ -5,7 +5,7 @@ export default function MemoryCard( {title, icon} ) {
                         transition-transform duration-300 hover:scale-105 group"
     >
       <div
-        className="w-20 py-6 bg-blue-400 text-center rounded-full text-2xl text-white 
+        className="w-20 py-6 bg-indigo-400 text-center rounded-full text-2xl text-white 
                           transition-transform duration-300 group-hover:rotate-12"
       >
        {icon}

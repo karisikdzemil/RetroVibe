@@ -1,5 +1,4 @@
 import MemoryCategories from "../../components/MemoryCategories";
-import "./globals.css";
 
 export default function Home() {
   return (
