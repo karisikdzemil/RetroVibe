@@ -1,4 +1,8 @@
-import Header from "../../components/Header"
+import Header from "../../components/Header";
+
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
 
 export const metadata = {
   title: 'Next.js',
