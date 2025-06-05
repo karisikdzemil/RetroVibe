@@ -32,7 +32,8 @@ const Inputs = ( { user, socket, setChat } ) => {
     }
 
     const userTyping = (e) => {
-        setInput(e.target.value)
+        setInput(e.target.value);
+        socket.emit("user_typing", {user: user.name, typing: e.target.value ? true : false})
     }
 
   return (
