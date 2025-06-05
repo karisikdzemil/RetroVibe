@@ -9,7 +9,17 @@ const socket = io("http://localhost:3001");
 
 export default function Community() {
     const [chat, setChat] = useState([]);
-  const user = useRef('bobby');
+    const user = useRef('bobby');
+
+    useEffect(() => {
+        socket.on("recieve_message", (msg) => {
+            setChat((prev) => [...prev, msg])
+        });
+
+        return () => {
+            socket.off("recieve_message")
+        }
+    }, [])
 
   console.log(chat)
 

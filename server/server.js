@@ -14,7 +14,10 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-   
+   socket.on("send_message", (msg) => {
+    // console.log(msg)
+    socket.broadcast.emit("recieve_message", msg);
+   })
 }); 
 
 server.listen(3001, () => {
