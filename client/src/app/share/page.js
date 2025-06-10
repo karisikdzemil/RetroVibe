@@ -43,7 +43,7 @@ export default function ShareMemory() {
     formData.append("image", imageFile);
   
     for (const [key, val] of formData.entries()) {
-      console.log(key, val); // da potvrdiš datoteku
+      console.log(key, val); 
     }
   
     const res = await fetch("/api/upload", {
@@ -103,7 +103,6 @@ export default function ShareMemory() {
           Share Your Memory 💾
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Naslov */}
           <div>
             <label className="block text-sm mb-1 text-[#BFC9D9]">Memory Title</label>
             <input
@@ -146,7 +145,6 @@ export default function ShareMemory() {
             </div>
           </div>
 
-          {/* Opis */}
           <div>
             <label className="block text-sm mb-1 text-[#BFC9D9]">Your Memory</label>
             <textarea
@@ -158,7 +156,6 @@ export default function ShareMemory() {
             />
           </div>
 
-          {/* Slika */}
           <div>
             <label className="block text-sm mb-1 text-[#BFC9D9]">Upload Media (Optional)</label>
             <div className="flex gap-4">
@@ -174,7 +171,6 @@ export default function ShareMemory() {
             </div>
           </div>
 
-          {/* Submit dugme */}
           <button
             type="submit"
             disabled={loading}

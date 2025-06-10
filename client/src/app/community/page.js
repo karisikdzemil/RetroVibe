@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-// import { Chat, Inputs, SignUp } from "@/components" 
 import { Chat, Inputs, SignUp } from "../../../components/chat";
 import { io } from "socket.io-client";
 
