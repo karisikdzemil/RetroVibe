@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase"; 
+import { useSelector } from "react-redux";
 
 export default function ShareMemory() {
   const imageRef = useRef();
@@ -14,6 +15,9 @@ export default function ShareMemory() {
   });
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const user = useSelector(state => state.user);
+  console.log(user)
 
   function handleCheckboxChange(category) {
     setFormData((prev) => {

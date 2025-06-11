@@ -1,26 +1,30 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useState } from "react";
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/features/user/user-slice";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
   };
 
   const handleSubmit = async (e) => {
@@ -31,22 +35,33 @@ export default function Signup() {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
       const user = userCredential.user;
       console.log("User registered:", user);
-      if(user){
+      if (user) {
         await setDoc(doc(db, "Users", user.uid), {
-            email: user.email,
-            username: formData.username
+          email: user.email,
+          username: formData.username,
         });
-
       }
       setSuccess("Account created successfully!");
+      dispatch(
+        setUser({
+          uid: user.uid,
+          username: formData.username,
+          email: formData.email,
+        })
+      );
+    
       setFormData({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       });
     } catch (err) {
       console.error(err);
@@ -57,11 +72,15 @@ export default function Signup() {
   return (
     <section className="w-full min-h-screen bg-gradient-to-b from-[#161831] to-[#2f3567] text-[#EDF2F4] flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-md bg-[#1f2244] p-8 rounded-2xl shadow-lg space-y-6">
-        <h2 className="text-3xl font-extrabold text-indigo-500 text-center">Create Your Account</h2>
+        <h2 className="text-3xl font-extrabold text-indigo-500 text-center">
+          Create Your Account
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm mb-1 text-[#BFC9D9]">Username</label>
+            <label className="block text-sm mb-1 text-[#BFC9D9]">
+              Username
+            </label>
             <input
               name="username"
               type="text"
@@ -85,7 +104,9 @@ export default function Signup() {
             />
           </div>
           <div>
-            <label className="block text-sm mb-1 text-[#BFC9D9]">Password</label>
+            <label className="block text-sm mb-1 text-[#BFC9D9]">
+              Password
+            </label>
             <input
               name="password"
               type="password"
@@ -97,7 +118,9 @@ export default function Signup() {
             />
           </div>
           <div>
-            <label className="block text-sm mb-1 text-[#BFC9D9]">Confirm Password</label>
+            <label className="block text-sm mb-1 text-[#BFC9D9]">
+              Confirm Password
+            </label>
             <input
               name="confirmPassword"
               type="password"
