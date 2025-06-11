@@ -1,8 +1,112 @@
-export default function MemoriesPage () {
+"use client";
 
-    return (
-        <section className="w-[100%] h-[80vh] mt-[10vh]">
-            <h1>Memories Page</h1>
-        </section>
-    )
-}
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import Image from "next/image";
+import { db } from "../firebase";
+
+export default function MemoriesPage() {
+  const [memories, setMemories] = useState([]);
+  const [decadeFilter, setDecadeFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+
+  useEffect(() => {
+    const fetchMemories = async () => {
+      const querySnapshot = await getDocs(collection(db, "memories"));
+      const memoryList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setMemories(memoryList);
+    };
+
+    fetchMemories();
+  }, []);
+
+  const filteredMemories = memories.filter((memory) => {
+    const decadeMatch = decadeFilter === "all" || memory.decade === decadeFilter;
+    const categoryMatch = categoryFilter === "all" || memory.categories.includes(categoryFilter);
+    return decadeMatch && categoryMatch;
+  });
+
+  const decades = ["90s", "2000s"];
+  const allCategories = Array.from(new Set(memories.flatMap((m) => m.categories)));
+
+  return (
+    <section className="mt-[10vh] w-full min-h-screen bg-gradient-to-b from-[#3b4176] to-[#232746] text-[#EDF2F4] px-5 py-16">
+    <h1 className="text-4xl md:text-5xl font-bold text-indigo-300 text-center mb-12 drop-shadow-md">
+      Explore Memories
+    </h1>
+  
+    <div className="flex flex-col md:flex-row justify-center gap-6 mb-12">
+      <div>
+        <label className="font-semibold text-md mr-2">Decade:</label>
+        <select
+          className="px-4 py-2 rounded-md bg-[#2f345e] text-[#EDF2F4] border border-indigo-400 shadow-md"
+          onChange={(e) => setDecadeFilter(e.target.value)}
+          value={decadeFilter}
+        >
+          <option value="all">All</option>
+          {decades.map((decade) => (
+            <option key={decade} value={decade}>
+              {decade}
+            </option>
+          ))}
+        </select>
+      </div>
+  
+      <div>
+        <label className="font-semibold text-md mr-2">Category:</label>
+        <select
+          className="px-4 py-2 rounded-md bg-[#2f345e] text-[#EDF2F4] border border-indigo-400 shadow-md"
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          value={categoryFilter}
+        >
+          <option value="all">All</option>
+          {allCategories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {filteredMemories.map((mem) => (
+        <div
+          key={mem.id}
+          className="bg-[#f1f3f9] text-[#2B2D42] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition"
+        >
+          <Image
+            src={mem.imageUrl}
+            alt={mem.title}
+            width={500}
+            height={240}
+            className="w-full h-60 object-cover"
+          />
+          <div className="p-5">
+            <h2 className="text-xl font-bold text-indigo-600 mb-2">{mem.title}</h2>
+            <p className="text-sm italic mb-1 text-gray-600">By {mem.username} • {mem.decade}</p>
+            <p className="text-gray-700 mb-3">{mem.memory}</p>
+            <div className="flex flex-wrap gap-2">
+              {mem.categories.map((cat) => (
+                <span
+                  key={cat}
+                  className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
+                >
+                  {cat}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+      {filteredMemories.length === 0 && (
+        <p className="col-span-full text-center text-gray-300 text-lg mt-10">
+          No memories match your filters.
+        </p>
+      )}
+    </div>
+  </section>
+  
+
+  );
+} 
