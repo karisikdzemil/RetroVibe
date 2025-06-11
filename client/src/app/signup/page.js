@@ -49,6 +49,13 @@ export default function Signup() {
         });
       }
       setSuccess("Account created successfully!");
+      localStorage.setItem("user", JSON.stringify({
+        uid: user.uid,
+        email: user.email,
+        username: formData.username,
+        expiresAt: Date.now() + 2 * 60 * 60 * 1000
+      }));
+      
       dispatch(
         setUser({
           uid: user.uid,

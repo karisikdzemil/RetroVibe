@@ -2,8 +2,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { useRouter } from "next/navigation";
+import { doc, getDoc } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/features/user/user-slice";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -12,6 +15,7 @@ export default function Login() {
   });
   const [error, setError] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
 
   async function loginHandler(e) {
     e.preventDefault();
@@ -22,8 +26,36 @@ export default function Login() {
         formData.email,
         formData.password
       );
-      console.log("Logged in:", userCredential.user);
+
+      const user = userCredential.user;
+
+      // Uzmi dodatne podatke iz Firestore-a
+      const userDocRef = doc(db, "Users", user.uid);
+      const userSnapshot = await getDoc(userDocRef);
+      const userData = userSnapshot.data();
+
+      const userInfo = {
+        uid: user.uid,
+        email: user.email,
+        username: userData?.username || "",
+        expiresAt: Date.now() + 2 * 60 * 60 * 1000, // 2 sata
+      };
+
+      // Setuj u localStorage
+      localStorage.setItem("user", JSON.stringify(userInfo));
+
+      // Setuj u Redux
+      dispatch(
+        setUser({
+          uid: user.uid,
+          email: user.email,
+          username: userData?.username || "",
+        })
+      );
+
+      console.log("Logged in:", userInfo);
       router.push("/");
+
     } catch (err) {
       console.error(err);
       setError("Invalid email or password");

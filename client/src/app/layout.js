@@ -7,6 +7,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 config.autoAddCss = false
 import { store } from "./store";
 import { Provider } from "react-redux";
+import InitUser from "./InitUser";
 
 // export const metadata = {
 //   title: 'Next.js',
@@ -18,8 +19,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Provider store={store}>
+          <InitUser />
         <Header />
-        {children}
+       <main> {children}</main>
         </Provider>
         </body>
     </html>

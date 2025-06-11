@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase"; 
 import { useSelector } from "react-redux";
+import Link from "next/link";
 
 export default function ShareMemory() {
   const imageRef = useRef();
@@ -17,7 +18,7 @@ export default function ShareMemory() {
   const [loading, setLoading] = useState(false);
 
   const user = useSelector(state => state.user);
-  console.log(user)
+
 
   function handleCheckboxChange(category) {
     setFormData((prev) => {
@@ -80,9 +81,10 @@ export default function ShareMemory() {
         return;
       }
     }
-
     try {
       const postData = {
+        username: user.user.username,
+        userId: user.user.uid,
         ...formData,
         imageUrl,
       };
@@ -98,6 +100,25 @@ export default function ShareMemory() {
     }
 
     setLoading(false);
+  }
+
+  if (!user || !user.user) {
+    return (
+      <section className="mt-[10vh] w-full min-h-screen bg-gradient-to-b from-[#161831] to-[#2f3567] text-white flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-xl bg-[#1f2244] p-8 rounded-2xl shadow-lg text-center space-y-6">
+          <h2 className="text-3xl font-bold text-indigo-400">Login Required 🔐</h2>
+          <p className="text-lg text-[#BFC9D9]">
+            To share a memory, you must be logged in. Memories are linked to your profile.
+          </p>
+          <Link
+            href="/login"
+            className="inline-block bg-indigo-500 text-[#2B2D42] font-semibold py-3 px-6 rounded-xl hover:bg-[#2B2D42] hover:text-white transition duration-300"
+          >
+            Go to Login
+          </Link>
+        </div>
+      </section>
+    );
   }
 
   return (
