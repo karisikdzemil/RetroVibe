@@ -13,11 +13,11 @@ const Inputs = ( { user, socket, setChat } ) => {
          const msg = {content: input, type: "text", user}
         socket.emit("send_message", msg);
         setChat(prev => [...prev, msg]);
-        setInput("")
+        setInput("");
+        socket.emit("user_typing", {user: user.name, typing: false})
         }else{
             uploadInput.current.click();
         }
-       
     }
 
     const handleImageUpload = (e) => {
@@ -37,26 +37,38 @@ const Inputs = ( { user, socket, setChat } ) => {
     }
 
   return (
-    <div className="w-full absolute bottom-0 text-xl grid grid-cols-5 gradient md:bg-none md:text-3xl md:flex md:justify-center md:relative">
-      <input
-        className="focus:outline-none rounded-2xl p-3 text-white placeholder-slate-200 col-span-4 gradient md:w-6/12 md:mr-3"
-        type="text"
-        placeholder="Enter your message"
-        value={input}
-        onChange={(e) => userTyping(e)}
-        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+    <div className="w-full absolute bottom-0 left-0 px-4 py-3 bg-[#1e223f]/90 backdrop-blur-md border-t border-indigo-400 md:relative md:rounded-xl md:mt-6 flex items-center gap-3">
+  
+    <input
+      className="flex-grow rounded-full py-3 px-5 text-white placeholder-slate-300 bg-[#2b2f53] focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+      type="text"
+      placeholder="Type your message..."
+      value={input}
+      onChange={(e) => userTyping(e)}
+      onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+    />
+  
+    <input
+      type="file"
+      className="hidden"
+      ref={uploadInput}
+      onChange={(e) => handleImageUpload(e)}
+    />
+  
+    <button
+      onClick={sendMessage}
+      className="bg-indigo-500 hover:bg-indigo-600 transition-all p-3 rounded-full flex items-center justify-center"
+    >
+      <Image
+        src={input ? send : upload}
+        alt="send"
+        className="w-6 h-6 md:w-8 md:h-8"
+        width={24}
+        height={24}
       />
-      <input type="file" className="hidden" ref={uploadInput} onChange={(e) => handleImageUpload(e)}/>
-      <button onClick={sendMessage} className="w-full py-2 px-3 bg-sky-400 text-white font-bold rounded-md text-xl gradient md:w-1/12 md:text-2xl">
-        <Image
-          src={input ? send : upload}
-          alt="send"
-          className="w-6 md:w-12 mx-auto"
-          height={20}
-          width={20}
-        />
-      </button>
-    </div>
+    </button>
+  </div>
+  
   );
 };
 
