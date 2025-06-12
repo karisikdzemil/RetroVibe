@@ -16,8 +16,8 @@ const Chat = ({chat, user, typing}) => {
 
     return (
         <div className="h-full pb-12 md:p-4">
-        <div className="w-full h-[90vh] max-h-screen rounded-2xl overflow-y-auto pt-4 md:pt-6 px-3 md:px-6 bg-[#1e223f]/80 backdrop-blur-md shadow-inner space-y-3 scroll-smooth custom-scrollbar">
-          
+        <div className="w-full h-full max-h-screen rounded-2xl overflow-y-auto pt-4 md:pt-6 px-3 md:px-6 bg-[#1e223f]/80 backdrop-blur-md shadow-inner space-y-3 scroll-smooth custom-scrollbar">
+        
           {chat.map((message, index) => {
             message = { ...message, own: message.user?.id === user.id };
             return message.type === "server" ? (
@@ -28,10 +28,9 @@ const Chat = ({chat, user, typing}) => {
               <Message key={index} {...message} />
             );
           })}
-      
+    
           {typing[0] && <Typing user={typing[0]} />}
       
-          {/* Scroll anchor */}
           <div ref={scroller} className="pb-6" />
         </div>
       </div>
