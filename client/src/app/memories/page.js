@@ -26,7 +26,7 @@ export default function MemoriesPage() {
     return decadeMatch && categoryMatch;
   });
 
-  const decades = ["90s", "2000s"];
+  const decades = ["80s", "90s", "2000s"];
   const allCategories = Array.from(new Set(memories.flatMap((m) => m.categories)));
 
   return (
@@ -99,12 +99,15 @@ export default function MemoriesPage() {
           </div>
         </div>
       ))}
-      {filteredMemories.length === 0 && (
-        <p className="col-span-full text-center text-gray-300 text-lg mt-10">
-          No memories match your filters.
-        </p>
-      )}
     </div>
+      {filteredMemories.length === 0 && (
+          <div className="w-full h-10 flex justify-center items-center flex-col">
+            <div className="flex justify-center items-center py-6">
+          <div className="w-18 h-18 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+          <h1 className="text-white">Loading...</h1>
+          </div>
+      )}
   </section>
   
 

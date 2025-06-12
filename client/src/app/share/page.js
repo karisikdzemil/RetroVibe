@@ -90,8 +90,6 @@ export default function ShareMemory() {
       };
 
       const postRef = await addDoc(collection(db, "memories"), postData);
-      console.log("Memory saved with ID:", postRef.id);
-      alert("Memory successfully saved!");
       setFormData({ title: "", decade: "90s", categories: [], memory: "" });
       setImage(null);
     } catch (error) {
