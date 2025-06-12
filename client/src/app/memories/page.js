@@ -78,13 +78,13 @@ export default function MemoriesPage() {
           key={mem.id}
           className="bg-[#f1f3f9] text-[#2B2D42] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition"
         >
-          <Image
+          {mem.imageUrl && <Image
             src={mem.imageUrl}
             alt={mem.title}
             width={500}
             height={240}
             className="w-full h-60 object-cover"
-          />
+          />}
           <div className="p-5">
             <h2 className="text-xl font-bold text-indigo-600 mb-2">{mem.title}</h2>
            <Link href={`/profile/${mem.userId}`}> <p className="text-sm italic mb-1 text-gray-600 cursor-pointer">By {mem.username} • {mem.decade}</p></Link>

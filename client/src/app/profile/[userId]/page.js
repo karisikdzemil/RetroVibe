@@ -72,13 +72,13 @@ export default function UserProfile() {
             key={mem.id}
             className="bg-[#f1f3f9] text-[#2B2D42] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition relative"
           >
-            <Image
+           {mem.imageUrl && <Image
               src={mem.imageUrl}
               alt={mem.title}
               width={500}
               height={240}
               className="w-full h-60 object-cover"
-            />
+            />}
             <div className="p-5">
               <h2 className="text-xl font-bold text-indigo-600 mb-2">{mem.title}</h2>
               <Link href={`/profile/${mem.userId}`}>
@@ -101,7 +101,7 @@ export default function UserProfile() {
             {isAutor && (
               <button
                 onClick={() => handleDelete(mem.id)}
-                className="absolute top-4 right-4 bg-red-100 text-red-600 p-2 rounded-full hover:bg-red-200"
+                className="absolute top-4 right-4 bg-red-100 text-red-600 p-2 cursor-pointer rounded-full hover:bg-red-200"
                 title="Delete Memory"
               >
                 <FaTrash />
