@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import Image from "next/image";
 import { db } from "../firebase";
+import { useRouter } from 'next/navigation'
+import Link from "next/link";
 
 export default function MemoriesPage() {
   const [memories, setMemories] = useState([]);
   const [decadeFilter, setDecadeFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMemories = async () => {
@@ -84,7 +87,7 @@ export default function MemoriesPage() {
           />
           <div className="p-5">
             <h2 className="text-xl font-bold text-indigo-600 mb-2">{mem.title}</h2>
-            <p className="text-sm italic mb-1 text-gray-600">By {mem.username} • {mem.decade}</p>
+           <Link href={`/profile/${mem.userId}`}> <p className="text-sm italic mb-1 text-gray-600 cursor-pointer">By {mem.username} • {mem.decade}</p></Link>
             <p className="text-gray-700 mb-3">{mem.memory}</p>
             <div className="flex flex-wrap gap-2">
               {mem.categories.map((cat) => (
