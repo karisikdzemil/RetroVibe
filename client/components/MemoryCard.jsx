@@ -10,13 +10,12 @@ export default function MemoryCard( {title, icon} ) {
 
   function categoryHandler (){
     dispatch(setCategory(title));
-    console.log(title)
     router.push('/memories')
   }
 
   return (
     <div onClick={categoryHandler}
-      className="w-2/3 h-50 bg-gray-800 rounded-3xl flex flex-col items-center justify-center gap-3 border-3 border-gray-400 cursor-pointer 
+      className="w-60 h-50 bg-gray-800 rounded-3xl flex flex-col items-center justify-center gap-3 border-3 border-gray-400 cursor-pointer 
                         transition-transform duration-300 hover:scale-105 group"
     >
       <div

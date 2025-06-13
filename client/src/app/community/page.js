@@ -84,12 +84,14 @@ export default function Home() {
               <div className="flex-grow overflow-y-auto max-h-[60vh]">
                 <Chat user={user.current} chat={chats[typeOfChat] || []} typing={typing} />
               </div>
-              <Inputs
+             <div className="relative">
+             <Inputs
                 setChats={setChats}
                 user={user.current}
                 socket={socket}
                 typeOfChat={typeOfChat}
               />
+             </div>
             </>
           ) : (
             <SignUp user={user} socket={socket} input={input} setInput={setInput} />

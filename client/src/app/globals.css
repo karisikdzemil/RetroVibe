@@ -1,6 +1,6 @@
-@import "tailwindcss";
+ @import "tailwindcss";
 
-.gradient {
+gradient {
     background: linear-gradient(150deg, rgb(29, 142, 255) 50%, rgb(0, 106, 255) 100%);
   }
   
@@ -19,7 +19,7 @@
   *::-webkit-scrollbar-thumb {
     background-color: rgb(163, 209, 255);
     border-radius: 1rem;
-    /* outline: 1px solid slategrey; */
+
   }
   
   .loader {
@@ -61,4 +61,4 @@
     .message img{
       max-width: 60vw;
     }
-  }
+  } 

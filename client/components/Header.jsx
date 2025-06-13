@@ -12,6 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "@/features/user/user-slice";
+import HamburgerMenu from "./HamburgerMenu";
 
 export default function Header() {
   const path = usePathname();
@@ -108,7 +109,7 @@ export default function Header() {
         )}
       </nav>
 
-      <div className="md:hidden text-[#FFD23F] text-2xl cursor-pointer">☰</div>
+        <HamburgerMenu />
     </header>
   );
 }

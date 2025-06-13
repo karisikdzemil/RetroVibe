@@ -15,7 +15,7 @@ const Chat = ({chat, user, typing}) => {
     }, [chat])
 
     return (
-        <div className="h-full pb-12 md:p-4">
+        <div className="h-full max-h-90 pb-12 md:p-4 mb-10">
         <div className="w-full h-full max-h-screen rounded-2xl overflow-y-auto pt-4 md:pt-6 px-3 md:px-6 bg-[#1e223f]/80 backdrop-blur-md shadow-inner space-y-3 scroll-smooth custom-scrollbar">
         
           {chat.map((message, index) => {

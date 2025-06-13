@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-    <section className="w-full min-h-[100vh] bg-gradient-to-b from-[#161831] to-[#2f3567] text-[#EDF2F4] flex flex-col items-center justify-center px-5 text-center space-y-6">
-    <h1 className="text-9xl md:text-6xl font-extrabold text-indigo-500 drop-shadow-lg">
+    <section className="pt-[10vh] w-full min-h-[100vh] bg-gradient-to-b from-[#161831] to-[#2f3567] text-[#EDF2F4] flex flex-col items-center justify-center px-5 text-center space-y-6">
+    <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-indigo-500 drop-shadow-lg">
       Relive Your Childhood Memories
     </h1>
     <p className="max-w-2xl text-lg md:text-xl text-[#BFC9D9]">
