@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { Chat, Inputs, SignUp } from "../../../components/chat";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3001");
+// const socket = io("http://localhost:3001");
+const socket = io("https://retrovibe-server-4wf92dhl7-dzemils-projects.vercel.app");
 
 export default function Home() {
   const [chats, setChats] = useState({});
