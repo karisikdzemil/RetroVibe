@@ -18,12 +18,14 @@ import { FaTrash } from "react-icons/fa";
 export default function UserProfile() {
   const [memories, setMemories] = useState([]);
   const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
   const currentUser = useSelector((state) => state.user);
 
   const isAutor = currentUser.user?.uid === params.userId;
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchMemoriesAndUser = async () => {
       const querySnapshot = await getDocs(collection(db, "memories"));
       const memoryList = querySnapshot.docs.map((doc) => ({
@@ -35,18 +37,19 @@ export default function UserProfile() {
       const userSnapshot = await getDoc(userDocRef);
 
       setMemories(memoryList);
+      setIsLoading(false);
       setUser(userSnapshot.data());
     };
 
     fetchMemoriesAndUser();
   }, [params.userId]);
 
-  const filteredMemories = memories.filter(
-    (el) => el.userId === params.userId
-  );
+  const filteredMemories = memories.filter((el) => el.userId === params.userId);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this memory?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this memory?"
+    );
     if (!confirmDelete) return;
 
     await deleteDoc(doc(db, "memories", id));
@@ -55,16 +58,17 @@ export default function UserProfile() {
 
   return (
     <section className="mt-[10vh] w-full min-h-screen bg-gradient-to-b from-[#3b4176] to-[#232746] text-[#EDF2F4] px-5 py-16">
-
-<div className="max-w-xl mx-auto text-center mb-16 p-6 rounded-lg bg-gradient-to-r from-indigo-700 via-indigo-800 to-indigo-900 shadow-2xl border-2 border-indigo-500">
-  <h1 className="text-4xl font-extrabold text-indigo-300 drop-shadow-lg mb-3 tracking-wide">
-    {user.username || "Unknown User"}
-  </h1>
-  <p className="text-md text-indigo-100">{user.email || "No email provided"}</p>
-  <p className="mt-2 text-sm text-indigo-200 italic">
-    {isAutor ? "This is your public profile" : "User's profile"}
-  </p>
-</div>
+      <div className="max-w-xl mx-auto text-center mb-16 p-6 rounded-lg bg-gradient-to-r from-indigo-700 via-indigo-800 to-indigo-900 shadow-2xl border-2 border-indigo-500">
+        <h1 className="text-4xl font-extrabold text-indigo-300 drop-shadow-lg mb-3 tracking-wide">
+          {user.username || "Unknown User"}
+        </h1>
+        <p className="text-md text-indigo-100">
+          {user.email || "No email provided"}
+        </p>
+        <p className="mt-2 text-sm text-indigo-200 italic">
+          {isAutor ? "This is your public profile" : "User's profile"}
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredMemories.map((mem) => (
@@ -72,15 +76,19 @@ export default function UserProfile() {
             key={mem.id}
             className="bg-[#f1f3f9] text-[#2B2D42] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition relative"
           >
-           {mem.imageUrl && <Image
-              src={mem.imageUrl}
-              alt={mem.title}
-              width={500}
-              height={240}
-              className="w-full h-60 object-cover"
-            />}
+            {mem.imageUrl && (
+              <Image
+                src={mem.imageUrl}
+                alt={mem.title}
+                width={500}
+                height={240}
+                className="w-full h-60 object-cover"
+              />
+            )}
             <div className="p-5">
-              <h2 className="text-xl font-bold text-indigo-600 mb-2">{mem.title}</h2>
+              <h2 className="text-xl font-bold text-indigo-600 mb-2">
+                {mem.title}
+              </h2>
               <Link href={`/profile/${mem.userId}`}>
                 <p className="text-sm italic mb-1 text-gray-600 cursor-pointer">
                   By {mem.username} • {mem.decade}
@@ -113,10 +121,16 @@ export default function UserProfile() {
 
       {filteredMemories.length === 0 && (
         <div className="w-full h-10 flex justify-center items-center flex-col mt-16">
-          <div className="flex justify-center items-center py-6">
-            <div className="w-18 h-18 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-          </div>
-          <h1 className="text-white">Loading...</h1>
+          {isLoading ? (
+            <>
+              <div className="flex justify-center items-center py-6">
+                <div className="w-18 h-18 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+              <h1 className="text-white">Loading...</h1>
+            </>
+          ) : (
+            <h1 className="text-white text-lg">No memories found.</h1>
+          )}
         </div>
       )}
     </section>

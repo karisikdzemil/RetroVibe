@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/user/user-slice";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -17,8 +18,8 @@ export default function Signup() {
   });
 
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
+  const [success, setSuccess] = useState(""); 
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -49,6 +50,7 @@ export default function Signup() {
         });
       }
       setSuccess("Account created successfully!");
+      router.push('/');
       localStorage.setItem("user", JSON.stringify({
         uid: user.uid,
         email: user.email,

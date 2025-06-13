@@ -29,7 +29,6 @@ export default function Login() {
 
       const user = userCredential.user;
 
-      // Uzmi dodatne podatke iz Firestore-a
       const userDocRef = doc(db, "Users", user.uid);
       const userSnapshot = await getDoc(userDocRef);
       const userData = userSnapshot.data();
@@ -38,13 +37,11 @@ export default function Login() {
         uid: user.uid,
         email: user.email,
         username: userData?.username || "",
-        expiresAt: Date.now() + 2 * 60 * 60 * 1000, // 2 sata
+        expiresAt: Date.now() + 2 * 60 * 60 * 1000, 
       };
 
-      // Setuj u localStorage
       localStorage.setItem("user", JSON.stringify(userInfo));
 
-      // Setuj u Redux
       dispatch(
         setUser({
           uid: user.uid,
