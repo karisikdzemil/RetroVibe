@@ -14,11 +14,11 @@ export default function MemoryCategories() {
         </div>
         <div className="w-[30%] h-full flex flex-col items-center justify-center gap-10">
        <MemoryCard title='Toys' icon={ <FontAwesomeIcon icon={faGamepad} />}/>
-       <MemoryCard title='Birthday Parties' icon={ <FontAwesomeIcon icon={faCakeCandles} />}/>
+       <MemoryCard title='Other' icon={ <FontAwesomeIcon icon={faCakeCandles} />}/>
         </div>
         <div className="w-[30%] h-full flex flex-col items-center justify-center gap-10">
        <MemoryCard title='Music' icon={<FontAwesomeIcon icon={faMusic} />}/>
-       <MemoryCard title='Video Games' icon={ <FontAwesomeIcon icon={faPlay} />}/>
+       <MemoryCard title='Games' icon={ <FontAwesomeIcon icon={faPlay} />}/>
         </div>
       </div>
     </section>
