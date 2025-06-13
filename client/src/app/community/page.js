@@ -5,7 +5,11 @@ import { Chat, Inputs, SignUp } from "../../../components/chat";
 import { io } from "socket.io-client";
 
 // const socket = io("http://localhost:3001");
-const socket = io("https://retrovibe-server-4wf92dhl7-dzemils-projects.vercel.app");
+const socket = io("https://retrovibe.onrender.com", {
+  transports: ["polling"],
+});
+
+
 
 export default function Home() {
   const [chats, setChats] = useState({});
@@ -102,4 +106,3 @@ export default function Home() {
     </main>
   );
 }
-
